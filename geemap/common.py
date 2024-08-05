@@ -3234,7 +3234,7 @@ def get_image_collection_thumbnails(
         print(e)
 
 
-def netcdf_to_ee(nc_file, var_names, band_names=None, lon="lon", lat="lat", decimal=2):
+def netcdf_to_ee(nc_file, var_names, band_names=None, lon="lon", lat="lat", decimal=2,engine=''):
     """
     Creates an ee.Image from netCDF variables band_names that are read from nc_file. Currently only supports variables in a regular longitude/latitude grid (EPSG:4326).
 
@@ -3276,8 +3276,10 @@ def netcdf_to_ee(nc_file, var_names, band_names=None, lon="lon", lat="lat", deci
         if not isinstance(lon, str) or not isinstance(lat, str):
             print("The longitude and latitude variable names must be a string.")
             return
-
-        ds = xr.open_dataset(nc_file)
+        if engine='':
+            ds = xr.open_dataset(nc_file)
+        else:
+            ds = xr.open_dataset(nc_file,engine=engine)
         data = ds[var_names]
 
         lon_data = data[lon]
