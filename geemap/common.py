@@ -3277,7 +3277,7 @@ def netcdf_to_ee(nc_file, var_names, band_names=None, lon="lon", lat="lat", deci
             print("The longitude and latitude variable names must be a string.")
             return
 
-        ds = xr.open_dataset(nc_file)
+        ds = xr.open_dataset(nc_file, engine="h5netcdf")
         data = ds[var_names]
 
         lon_data = data[lon]
